@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      PostHasTag.belongsTo(models.Post, {foreignKey: "PostId"})
-      PostHasTag.belongsTo(models.Tag, {foreignKey:"TagId"})
+      PostHasTag.belongsTo(models.Tag)
+      PostHasTag.belongsTo(models.Post)
     }
   }
   PostHasTag.init({
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     TagId: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'PostHasTags',
+    modelName: 'PostHasTag',
   });
   return PostHasTag;
 };

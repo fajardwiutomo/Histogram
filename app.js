@@ -22,15 +22,15 @@ app.get('/register', UserController.registForm)
 app.post('/register', UserController.postRegist)
 app.get('/login', UserController.loginForm)
 app.post('/login', UserController.postLogin)
-app.use(function (req, res, next) {
-  // console.log(req.session)
-  if (!req.session.userId) {
-    const error = 'Please login first!'
-    res.redirect(`/login?error=${error}`)
-  } else {
-    next()
-  }
-})
+// app.use(function (req, res, next) {
+//   // console.log(req.session)
+//   if (!req.session.userId) {
+//     const error = 'Please login first!'
+//     res.redirect(`/login?error=${error}`)
+//   } else {
+//     next()
+//   }
+// })
 app.get('/:id/delete', UserController.deleteUser)
 app.get('/post', Controller.post)
 app.get('/registration', Controller.register)

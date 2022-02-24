@@ -12,21 +12,17 @@ class Controller {
   }
 
   static post(req,res) {
-   Post.findAll({
-      include: [
-        {
-          model: Tag
-        }
-      ]
+    Post.findAll({
+      include: Tag
     })
-    .then(data=> {
-      res.render('post', {data})
-    })
-    .catch(err=> {
-      console.log(err)
-      res.send(err)
-    })
-  }
+     .then(data=> {
+       // res.send(data)
+       res.render('post', {data})
+     })
+     .catch(err=> {
+       res.send(err)
+     })
+   }
 
 }
 
