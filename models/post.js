@@ -19,9 +19,30 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Post.init({
-    title: DataTypes.STRING,
-    content: DataTypes.STRING,
-    imageURL: DataTypes.STRING,
+    title:{
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: "title must be filled"
+        }
+      }
+    },
+    content: {
+      type:  DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: "content must be filled"
+        }
+      }
+    },
+    imageURL: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty : {
+          msg: "Image URL cannot be empty"
+        }
+      }
+    } ,
     like: DataTypes.INTEGER
   }, {
     hooks: {

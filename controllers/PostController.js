@@ -27,6 +27,8 @@ class PostController {
    static postDetail(req,res){
      const {id} = req.params
     let currentUser = req.session.userId
+    console.log(currentUser)
+    console.log(id)
     Post.findAll({
       include : User,
       where: {
@@ -81,15 +83,21 @@ class PostController {
         res.redirect('/post')
       })
       .catch(err => {
-        res.send(err)
+        if(err.name === 'SequelizeValidationError') {
+          const errors = err.errors.map((el) => el.message)
+          res.send(errors)
+        } else {
+          res.send(err)
+        }
       })
   }
 
   static editPost(req, res) {
+    let errors = req.query.error
     let {id} = req.params
     Post.findByPk(id)
     .then(data => {
-      res.render('editPost', {data})
+      res.render('editPost', {data, errors})
     })
     .catch(err => {
       res.send(err)
@@ -108,7 +116,12 @@ class PostController {
       res.redirect('/post')
     })
     .catch((err=> {
-      res.send(err)
+      if(err.name === 'SequelizeValidationError') {
+        const errors = err.errors.map((el) => el.message)
+        res.redirect(`/post?error=${errors}`)
+      } else {
+        res.send(err)
+      }
     }))
   }
 
