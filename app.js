@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const port = 3000
-const Controller = require('./controllers/controller')
+const PostController = require('./controllers/PostController')
 const UserController = require('./controllers/UserController')
 const session = require('express-session')
 
@@ -17,7 +17,7 @@ app.use(session({
   }
 }))
 
-app.get('/', Controller.landingPage)
+app.get('/', PostController.landingPage)
 app.get('/register', UserController.registForm)
 app.post('/register', UserController.postRegist)
 app.get('/login', UserController.loginForm)
@@ -32,8 +32,8 @@ app.use(function (req, res, next) {
   }
 })
 app.get('/:id/delete', UserController.deleteUser)
-app.get('/post', Controller.post)
-app.get('/registration', Controller.register)
+app.get('/post', PostController.post)
+app.get('/registration', PostController.register)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

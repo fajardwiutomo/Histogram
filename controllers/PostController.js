@@ -1,7 +1,9 @@
 const{Post, Tag, PostHasTag} = require('../models')
 const posthastag = require('../models/posthastag')
+const time = require('../helpers')
+const { Op } = require('sequelize')
 
-class Controller {
+class PostController {
 
   static landingPage(req, res) {
     res.render('landingpage')
@@ -27,7 +29,16 @@ class Controller {
       res.send(err)
     })
   }
-
+  static likePost(req, res) {
+    let { postId } = req.params
+    Post.increment('like', { where: { id: postId }, by: 1 })
+      .then(() => {
+        res.redirect(`/post/${postId}`)
+      })
+      .catch(err => {
+        res.send(err)
+      })
+  }
 }
 
-module.exports = Controller
+module.exports = PostController
