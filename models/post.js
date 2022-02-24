@@ -21,8 +21,14 @@ module.exports = (sequelize, DataTypes) => {
   Post.init({
     title: DataTypes.STRING,
     content: DataTypes.STRING,
-    imageURL: DataTypes.STRING
+    imageURL: DataTypes.STRING,
+    like: DataTypes.INTEGER
   }, {
+    hooks: {
+      beforeCreate: (instance) => {
+        instance.like = 0
+      }
+    },
     sequelize,
     modelName: 'Post',
   });
