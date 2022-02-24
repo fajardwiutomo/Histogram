@@ -54,6 +54,7 @@ class UserController {
       }
     })
   }
+  
   static deleteUser(req, res) {
     const { id } = req.params
     User.destroy({
