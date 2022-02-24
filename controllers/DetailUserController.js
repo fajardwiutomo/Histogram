@@ -4,13 +4,13 @@ const time = require('../helpers')
 class DetailUserController {
   static detailUserForm (req, res) {
     let currentUser = req.session.userId
-    let errors = req.query.error
+    let error = req.query.error
     DetailUser.findAll({
       where: { UserId: currentUser }
     })
       .then(data => {
         data = data[0]
-        res.render('editDetailUserForm', { data, currentUser, errors })
+        res.render('formDetailUser', { data, currentUser, error })
       })
       .catch(err => res.send(err))
   }
@@ -56,7 +56,7 @@ class DetailUserController {
   static editDetailUser(req, res) {
     let currentUser = req.session.userId
     let { firstName, lastName, dateOfBirth, gender, address, phoneNumber } = req.body
-    Profile.update({ firstName, lastName, dateOfBirth, gender, address, phoneNumber }, {
+    DetailUser.update({ firstName, lastName, dateOfBirth, gender, address, phoneNumber }, {
       where: { UserId: currentUser }
     })
       .then(data => {

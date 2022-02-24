@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const routerDetailUser = require('../routers/profile')
+const routerDetailUser = require('../routers/detailuser')
 const routerPost = require('../routers/post')
 
 router.use('/detailuser', routerDetailUser)

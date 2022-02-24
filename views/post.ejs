@@ -13,7 +13,6 @@
       crossorigin="anonymous"
     />
     <title>Homepage</title>
-    <a href="/post/add">Add Your Post</a>
   </head>
   <style>
     img {
@@ -23,10 +22,36 @@
       width: 254px;
       height: 180px;
     }
+    body  {
+      background-image: url("https://img.okezone.com/okz/500/library/images/2020/08/22/toomszlxiifknlvfwkp2_13792.jpg");
+      background-color: #FFEFD5;
+    }
   </style>
   <body>
-    <div class="bg-dark">
+    <div>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">HISTOGRAM</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="/">Home</span></a>
+            <a class="nav-item nav-link" href="/post">My Post</a>
+            <a class="nav-item nav-link" href="/post/add">Add Your Post</a>
+            <a class="nav-item nav-link" href="/detailuser/<%= currentUser%>"> Detail User</a>
+          </div>
+        </div>
+        <form class="form-inline my-2 my-lg-0" action="/post" method="get">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="search">Search</button>
+        </form>
+   
+      </nav>
+    </div>
+    <div class="">
     <form action="">
+      <br>
       <div class="container">
         <div class="row align-items-start">
           <% data.forEach(e => {%>
@@ -44,10 +69,12 @@
           </div>
           <%})%>
         </div>
+        <br>
         <br /><br />
       </div>
       <br />
     </form>
+    <br>
     <br />
   </div>
   </body>
@@ -57,3 +84,7 @@
     crossorigin="anonymous"
   ></script>
 </html>
+
+
+
+https://disk.mediaindonesia.com/thumbs/600x400/news/2019/08/6e364066cbe5c17e672d330b610201fd.jpg

@@ -1,6 +1,7 @@
 const{Post, Tag, User} = require('../models')
 const posthastag = require('../models/posthastag')
 const time = require('../helpers/index')
+const {Op} = require('express')
 
 class PostController {
   static landingPage(req, res) {
@@ -10,15 +11,23 @@ class PostController {
 
   static post(req,res) {
     let { search } = req.query
-    let obj = {
-      include: [{
-        model: User
-      }],
-      order: [['createdAt', 'DESC']]
-    }
+    // let obj = {
+    //   include: [{
+    //     model: User
+    //   }],
+    //   order: [['createdAt', 'DESC']]
+    // }
+    let obj = {}
     if (search) {
-      obj.where = {}
-      obj.where.title = { [Op.iLike]: `%${search}%` }
+      obj = {
+        where: {
+          title: {
+            [Op.ilike]: `${search}`
+          }
+        }
+      }
+      // obj.where = {}
+      // obj.where.title = { [Op.iLike]: `%${search}%` }
     }
     Post.findAll(obj, {
       include: Tag
@@ -47,11 +56,12 @@ class PostController {
       where: { id: postId },
       include: [{
         model: User,
-        attributes: ["username", "id"],
+        attributes: ["userName", "id"],
         required: false,
       }]
     })
     .then(data => {
+      
       res.render('postDetail', { currentUser, data, time, error, role })
     })
     .catch(err => {
@@ -114,8 +124,8 @@ class PostController {
 
   static editPost(req, res) {
     let errors = req.query.error
-    let {id} = req.params
-    Post.findByPk(id)
+    let {postId} = req.params
+    Post.findByPk(postId)
     .then(data => {
       res.render('editPost', {data, errors})
     })
@@ -125,20 +135,20 @@ class PostController {
   }
 
   static postEditPost(req, res) {
-    let {id} = req.params
+    let {postId} = req.params
     let {title, content, imageURL} = req.body
     Post.update({title, content, imageURL},{
       where: {
-        id: +id
+        id: +postId
       }
     })
     .then(()=> {
-      res.redirect('/post')
+      res.redirect(`/post/detail/${postId}`)
     })
     .catch((err=> {
       if(err.name === 'SequelizeValidationError') {
         const errors = err.errors.map((el) => el.message)
-        res.redirect(`/post?error=${errors}`)
+        res.redirect(`/post/detail/${postId}/edit?error=${errors}`)
       } else {
         res.send(err)
       }

@@ -10,7 +10,7 @@
   <title>Homepage</title>
 </head>
 <style>
-  img {
+ img {
     border: 1px solid #ddd;
     border-radius: 4px;
     padding: 5px;
@@ -19,10 +19,31 @@
   }
   h2 {
     text-align: center;
+    color: aliceblue;
+  }
+
+  body  {
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTea9dpSkbrBCEVbQTE_MnU2ENecSTCVeakuw&usqp=CAU");
+    background-color: #FFEFD5;
   }
  
 </style>
 <body>
+  <div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">HISTOGRAM</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active" href="/">Home</span></a>
+          <a class="nav-item nav-link" href="/post">My Post</a>
+          <a class="nav-item nav-link" href="/detailuser/<%= currentUser%>"> Detail User</a>
+        </div>
+      </div>
+    </nav>
+  </div>
     <div>
       <br><br><br>
       <h2>YOUR POST DETAIL</h2>
@@ -39,13 +60,14 @@
                             <h5 class="card-title"><%= e.title%></h5>
                             <p class="card-text"><%=e.content%></p>
                             <p class="card-title"> Like : <%= e.like%> </p>
+                            <p></p>
                             <br>
-                            <p>Post By: <%= e.User.userName%> </p>
-                            <% if (!currentUser===e.User.dataValues.id) { %>
+                            <p>Post By: <%= e.User.userName%> - <%= time(e.createdAt)%> </p>
+                            <% if (!currentUser===e.User.id) { %>
                               <a href="/post/detail/<%= e.id%>/like">LIKE</a>
                               <% }%>
-                              <a href="/post/detail/<%= e.id%>/edit">Edit</a>
-                              <% if (currentUser===e.User.dataValues.id||role==='admin') { %>
+                              <% if (currentUser===e.User.id||role==='admin') { %>
+                                <a href="/post/detail/<%= e.id%>/edit">Edit</a>
                               <a href="/post/detail/<%= e.id%>/delete">Delete My Post</a>
                               <% }%>
                         </div>

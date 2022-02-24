@@ -15,17 +15,49 @@
     <title>Homepage</title>
   </head>
   <style>
-    img {
+   img {
       border: 1px solid #ddd;
       border-radius: 4px;
       padding: 5px;
       width: 254px;
       height: 180px;
     }
+    ini {
+    justify-content: center;
+    text-align: center;
+    }
+    h1{
+      text-align: center;
+    }
+  
+    body  {
+    background-image: url("https://st.depositphotos.com/1005676/2529/i/950/depositphotos_25293891-stock-photo-computer-robot-background.jpg");
+    background-color: #FFEFD5;
+  }
   </style>
   <body>
+    <div>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">HISTOGRAM</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="/">Home</span></a>
+            <a class="nav-item nav-link" href="/post">My Post</a>
+            <a class="nav-item nav-link" href="/post/add">Add Your Post</a>
+            <a class="nav-item nav-link" href="/logout">LOG OUT CUY</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <br><br><br>
     <h1>Create Your Post</h1>
     <br>
+    <ini>
+
+ 
     <form action="/post/add" method="post">
       <label for="">title</label><br>
       <input type="text" name="title"><br>
@@ -35,6 +67,15 @@
       <input type="text" name="imageURL"><br><br>
       <button type="submit" class="btn btn-primary">Add POST</button>
     </form>
+  </ini>
+    <% if(errors) {%>
+      <% errors.split(',').forEach(el => { %>
+        <p style="color: red;"> <%= el %> </p>
+        <%}) %>
+    <%}%>
+    <% if(errors) {%>
+        <p style="color: red;"><%= errors %></p>
+    <%}%>
 
   </body>
   <script

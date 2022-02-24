@@ -5,10 +5,44 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <style>
+      h2{
+      text-align: center;
+    }
+    body  {
+      background-image: url("https://disk.mediaindonesia.com/thumbs/600x400/news/2019/08/6e364066cbe5c17e672d330b610201fd.jpg");
+      background-color: #FFEFD5;
+    }
+  </style>
+  <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
 </head>
 <body>
+  <div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">HISTOGRAM</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active" href="/">Home</span></a>
+          <a class="nav-item nav-link" href="/post">My Post</a>
+          <a class="nav-item nav-link" href="/post/add">Add Your Post</a>
+          <a class="nav-item nav-link" href="/detailuser/<%= currentUser%>"> Detail User</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+  <br>
   <h2>Detail User</h2>
   <div class="container text-center my-5" style="width: 50vh">
+    <label for="Usernam"></label>
+
     <% if (data.DetailUser) { %>
     <div class="card">
       <ul class="list-group list-group-flush">
@@ -16,7 +50,7 @@
         <li class="list-group-item"> Name: <%= data.DetailUser.firstName %> <%= data.DetailUser.lastName %></li>
         <li class="list-group-item">Age : <%= data.DetailUser.age() %></li>
       </ul>
-      <a class="btn" href="/detailuser/<%= data.id %>/form">Edit DetailUser</a>
+      <a class="btn btn-warning" href="/detailuser/<%= data.id %>/edit">Edit DetailUser</a>
     </div>
       <% } else { %>
       <div class="card">
@@ -25,11 +59,11 @@
           <li class="list-group-item"> Name: --- </li>
           <li class="list-group-item">Age : --- </li>
         </ul>
-        <a href="/detailuser/<%= data.id %>/form"><button>Edit DetailUser</button></a>
+        <a class="btn btn-warning" href="/detailuser/<%= data.id %>/edit">Edit DetailUser</a>
       </div>
     <% } %>
     <br>
-    <h5><%=data.username%>'s post</h5>
+    <h5><%=data.username%>Tags Post</h5>
     <ul class="list-group"></ul>
     <% data.Posts.forEach(e => { %>
       
@@ -39,4 +73,9 @@
   </ul>
   </div>
 </body>
+<script
+src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+crossorigin="anonymous"
+></script>
 </html>

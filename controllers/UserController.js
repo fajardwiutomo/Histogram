@@ -5,7 +5,7 @@ const time = require('../helpers')
 class UserController {
   static registForm(req, res) {
     let error = req.query.error
-    res.render('registform', error)
+    res.render('registform', {error})
   }
   static postRegist(req, res) {
     const { userName, email, password, role } = req.body;
@@ -30,7 +30,7 @@ class UserController {
           const isValidPassword = bcrypt.compareSync(password, user.password)
           if (isValidPassword) {
             req.session.userId = user.id
-            req.session.role = data.role
+            req.session.role = user.role
             return res.redirect('/')
           } else {
             const error = 'invalid email/password'

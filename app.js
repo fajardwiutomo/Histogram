@@ -32,6 +32,7 @@ app.use(function (req, res, next) {
     next()
   }
 })
+app.get('/logout', UserController.logOut)
 app.get('/:id/delete', UserController.deleteUser)
 app.use('/', router)
 
