@@ -8,5 +8,35 @@
 </head>
 <body>
   <h2>Detail User</h2>
+  <div class="container text-center my-5" style="width: 50vh">
+    <% if (data.DetailUser) { %>
+    <div class="card">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"> Username: <%= data.username %></li>
+        <li class="list-group-item"> Name: <%= data.DetailUser.firstName %> <%= data.DetailUser.lastName %></li>
+        <li class="list-group-item">Age : <%= data.DetailUser.age() %></li>
+      </ul>
+      <a class="btn" href="/detailuser/<%= data.id %>/form">Edit DetailUser</a>
+    </div>
+      <% } else { %>
+      <div class="card">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"> Username: <%= data.username %></li>
+          <li class="list-group-item"> Name: --- </li>
+          <li class="list-group-item">Age : --- </li>
+        </ul>
+        <a href="/detailuser/<%= data.id %>/form"><button>Edit DetailUser</button></a>
+      </div>
+    <% } %>
+    <br>
+    <h5><%=data.username%>'s post</h5>
+    <ul class="list-group"></ul>
+    <% data.Posts.forEach(e => { %>
+      
+        <li class="list-group-item"><a href="/post/<%= e.id %>"><%= e.title %></a></li>
+          
+    <% }) %>
+  </ul>
+  </div>
 </body>
 </html>

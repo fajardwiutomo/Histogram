@@ -3,16 +3,12 @@
     "firstName" : "Monkey D",
     "lastName": "Luffy",
     "dateOFBirth": "24-10-1999",
-    "gender": "Male",
-    "address": "East Blue",
-    "phoneNumber": "08547676343"
+    "gender": "Male"
   },
   {
     "firstName" : "Potgas D",
     "lastName": "Ace",
     "dateOFBirth": "24-10-1994",
-    "gender": "Male",
-    "address": "East Blue",
-    "phoneNumber": "0086573434"
+    "gender": "Male"
   }
 ]

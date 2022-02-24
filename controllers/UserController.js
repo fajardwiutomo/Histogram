@@ -1,12 +1,11 @@
-const { User, DetailUser, Post } = require('../models')
+const { User } = require('../models')
 const bcrypt = require('bcryptjs')
-
-
-
+const time = require('../helpers')
 
 class UserController {
   static registForm(req, res) {
-    res.render('registform')
+    let error = req.query.error
+    res.render('registform', error)
   }
   static postRegist(req, res) {
     const { userName, email, password, role } = req.body;
@@ -31,6 +30,7 @@ class UserController {
           const isValidPassword = bcrypt.compareSync(password, user.password)
           if (isValidPassword) {
             req.session.userId = user.id
+            req.session.role = data.role
             return res.redirect('/')
           } else {
             const error = 'invalid email/password'
@@ -66,60 +66,6 @@ class UserController {
         res.send(err)
       })
   }
-
-
-
-  // static detailUserForm (req, res) {
-  //   let currentUser = req.session.userId
-  //   DetailUser.findAll({
-  //     where: { UserId: currentUser }
-  //   })
-  //     .then(data => {
-  //       data = data[0]
-  //       res.render('editDetailUserForm', { data, currentUser })
-  //     })
-  //     .catch(err => res.send(err))
-  // }
-
-  static formAddDetailUser(req, res){
-    res.render('formDetailUser')
-  }
-
-  static addDetailUser(req, res) {
-    let currentUser = req.session.userId
-    let { firstName, lastName, dateOfBirth, gender, address, phoneNumber } = req.body
-    DetailUser.create ({ firstName, lastName, dateOfBirth, gender, address, phoneNumber }, {
-      where: { UserId: currentUser }
-    })
-      .then(data => {
-        res.redirect(`/detailUser/${currentUser}`)
-      })
-      .catch(err => {
-        if(err){
-          res.send(err)
-        }
-      })
-  }
-
-  static showDetailUser(req, res) {
-    let currentUser = req.session.userId
-    User.findAll({
-      where: { id: currentUser },
-      include: [{
-        model: DetailUser,
-        required: false
-      }, {
-        model: Post,
-        required: false,
-      }]
-    })
-      .then(data => {
-        data = data[0]
-        res.render('detailUser', { currentUser, data, time })
-      })
-  }
-
-
 }
 
 module.exports = UserController;

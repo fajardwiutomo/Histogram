@@ -1,23 +1,33 @@
-const{Post, Tag, PostHasTag, User} = require('../models')
+const{Post, Tag, User} = require('../models')
 const posthastag = require('../models/posthastag')
 const time = require('../helpers/index')
 
 class PostController {
   static landingPage(req, res) {
-    res.render('landingpage')
-  }
-
-  static register(req, res){
-    res.render('Registration')
+    let currentUser = req.session.userId
+    res.render('landingpage', { currentUser })
   }
 
   static post(req,res) {
-    Post.findAll({
+    let { search } = req.query
+    let obj = {
+      include: [{
+        model: User
+      }],
+      order: [['createdAt', 'DESC']]
+    }
+    if (search) {
+      obj.where = {}
+      obj.where.title = { [Op.iLike]: `%${search}%` }
+    }
+    Post.findAll(obj, {
       include: Tag
     })
      .then(data=> {
+      let currentUser = req.session.userId
+      let role = req.session.role
        // res.send(data)
-       res.render('post', {data})
+       res.render('post', {data, currentUser, role, time })
      })
      .catch(err=> {
        res.send(err)
@@ -25,18 +35,24 @@ class PostController {
    }
 
    static postDetail(req,res){
-     const {id} = req.params
+    //  const {id} = req.params
+    // let currentUser = req.session.userId
+    // console.log(currentUser)
+    // console.log(id)
+    let { postId } = req.params
     let currentUser = req.session.userId
-    console.log(currentUser)
-    console.log(id)
+    let { error } = req.query
+    let role = req.session.role
     Post.findAll({
-      include : User,
-      where: {
-        id: +id
-      }
+      where: { id: postId },
+      include: [{
+        model: User,
+        attributes: ["username", "id"],
+        required: false,
+      }]
     })
     .then(data => {
-      res.render('postDetail', {data, currentUser})
+      res.render('postDetail', { currentUser, data, time, error, role })
     })
     .catch(err => {
       res.send(err)
@@ -71,13 +87,17 @@ class PostController {
 
   static addPost(req, res) {
     let currentUser = req.session.userId
-    let error = req.query.error
-    res.render('addPost', { currentUser, error })
+    let errors = req.query.error
+    res.render('addPost', { currentUser, errors })
   }
   static postAddPost(req, res) {
     let { title, content, imageURL } = req.body
     let UserId = req.session.userId
-  
+    let image = ''
+    if (req.file) {
+      image = req.file.path
+      image = image.replace('/upload', '/upload/w_300')
+    }
     Post.create({ UserId, title, content, imageURL })
       .then(_ => {
         res.redirect('/post')
@@ -85,7 +105,7 @@ class PostController {
       .catch(err => {
         if(err.name === 'SequelizeValidationError') {
           const errors = err.errors.map((el) => el.message)
-          res.send(errors)
+          res.redirect(`/post/add?error=${errors}`)
         } else {
           res.send(err)
         }

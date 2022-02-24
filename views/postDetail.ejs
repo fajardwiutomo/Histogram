@@ -41,9 +41,13 @@
                             <p class="card-title"> Like : <%= e.like%> </p>
                             <br>
                             <p>Post By: <%= e.User.userName%> </p>
+                            <% if (!currentUser===e.User.dataValues.id) { %>
                               <a href="/post/detail/<%= e.id%>/like">LIKE</a>
-                            <a href="/post/detail/<%= e.id%>/delete">Delete My Post</a>
-                            <a href="/post/detail/<%= e.id%>/edit">Edit</a>
+                              <% }%>
+                              <a href="/post/detail/<%= e.id%>/edit">Edit</a>
+                              <% if (currentUser===e.User.dataValues.id||role==='admin') { %>
+                              <a href="/post/detail/<%= e.id%>/delete">Delete My Post</a>
+                              <% }%>
                         </div>
                       </div>
                 </div>

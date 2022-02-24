@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       User.hasMany(models.Post, { foreignKey: 'UserId' })
-      User.belongsTo(models.DetailUser, { foreignKey: "DetailUserId"})
+      User.hasOne(models.DetailUser, { foreignKey: "UserId"})
     }
   }
   User.init({
@@ -42,7 +42,6 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     role: DataTypes.STRING,
-    DetailUserId: DataTypes.STRING
   }, {
     hooks: {
       beforeCreate(instance, options) {

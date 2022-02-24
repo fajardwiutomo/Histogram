@@ -3,7 +3,6 @@
     "userName" : "MonkeyDLuffy",
     "email": "Luffy@gmail.com",
     "password": "luffy2121",
-    "role": "Admin",
-    "DetailUserId": "1"
+    "role": "Admin"
   }
 ]

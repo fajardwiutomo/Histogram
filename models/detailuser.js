@@ -11,18 +11,51 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      DetailUser.hasOne(models.User,{
-        foreignKey: "DetailUserId"        
+      DetailUser.belongsTo(models.User,{
+        foreignKey: "UserId"        
       })
+    }
+    age() {
+      let check = new Date()
+      let age = check - this.dateOfBirth
+      age = age / (1000 * 60 * 60 * 24 * 365.25)
+      age = Math.floor(age)
+      return age
+    }
+    get convertDate() {
+      return this.dateOfBirth.toISOString().split('T')[0]
     }
   }
   DetailUser.init({
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    dateOfBirth: DataTypes.DATE,
+    firstName: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: { msg: 'first name is required!' }
+      }
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: { msg: 'last name is required!' }
+      }
+    },
+    dateOfBirth: {
+      type: DataTypes.DATE,
+      validate: {
+        notEmpty: { msg: 'Date is required!' },
+        validateAge(dateOfBirth) {
+          let check = new Date()
+          let age = check - dateOfBirth
+          age = age / (1000 * 60 * 60 * 24 * 365.25)
+          age = Math.floor(age)
+          if (age < 17) {
+            throw new Error('minimum 17 years old')
+          }
+        }
+      }
+    },
+    UserId: DataTypes.INTEGER,
     gender: DataTypes.STRING,
-    address: DataTypes.STRING,
-    phoneNumber: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'DetailUser',
