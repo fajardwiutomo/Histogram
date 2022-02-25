@@ -1,7 +1,7 @@
 const{Post, Tag, User} = require('../models')
 const posthastag = require('../models/posthastag')
 const time = require('../helpers/index')
-const {Op} = require('express')
+const {Op} = require('sequelize')
 
 class PostController {
   static landingPage(req, res) {
@@ -11,23 +11,23 @@ class PostController {
 
   static post(req,res) {
     let { search } = req.query
-    // let obj = {
-    //   include: [{
-    //     model: User
-    //   }],
-    //   order: [['createdAt', 'DESC']]
-    // }
-    let obj = {}
+    let obj = {
+      include: [{
+        model: User
+      }],
+      order: [['createdAt', 'DESC']]
+    }
+    // let obj = {}
     if (search) {
       obj = {
         where: {
           title: {
-            [Op.ilike]: `${search}`
+            [Op.iLike]: `%${search}%`
           }
         }
       }
-      // obj.where = {}
-      // obj.where.title = { [Op.iLike]: `%${search}%` }
+      obj.where = {}
+      obj.where.title = { [Op.iLike]: `%${search}%` }
     }
     Post.findAll(obj, {
       include: Tag
